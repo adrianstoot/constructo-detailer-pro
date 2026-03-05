@@ -21,16 +21,6 @@
 </head>
 <body>
   <div id="root"></div>
-  <script>
-    fetch('./app.js?v=4')
-      .then(r => r.text())
-      .then(code => {
-        const compiled = Babel.transform(code, { presets: ['react'] }).code;
-        try{eval(compiled);}catch(e){document.getElementById('root').innerHTML='<div style="color:red;padding:20px">Runtime: '+e.message+'</div>';}
-      })
-      .catch(err => {
-        document.getElementById('root').innerHTML = '<div style="color:red;padding:20px">Error: ' + err.message + '</div>';
-      });
-  </script>
+  <script type="text/babel" src="./app.js?v=5" data-presets="react"></script>
 </body>
 </html>
