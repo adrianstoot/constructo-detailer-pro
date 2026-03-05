@@ -1,12 +1,12 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { 
+const { useState, useMemo, useEffect, useRef, useCallback } = React;
+const { 
   FileText, Layers, CheckCircle, AlertTriangle, XCircle, 
   Plus, Trash2, Wind, Weight, Volume2, Flame, Leaf, ArrowUp, ArrowDown, Activity, Factory, MapPin, 
   Calculator, Info, BookOpen, HardHat, Euro, Lightbulb, Ruler, ShieldAlert,
   Undo2, Redo2, Search, Box, LayoutTemplate, BoxSelect, Settings2, Download,
   ThermometerSnowflake, Target, Zap, ExternalLink, GraduationCap, Wand2, ChevronDown, ChevronUp,
   AlertOctagon, CheckSquare, ClipboardList, Briefcase, FileSignature, Presentation
-} from 'lucide-react';
+} = lucide;
 
 // ============================================================================
 // 1. BASES DE DATOS OFICIALES (CTE 2026 - ESPAÑA / IVE VALENCIA)
@@ -1699,3 +1699,7 @@ export default function App() {
     </div>
   );
 }
+
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement);
+root.render(React.createElement(App));
