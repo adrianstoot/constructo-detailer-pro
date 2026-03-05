@@ -25,7 +25,7 @@
     fetch('./app.js?v=4')
       .then(r => r.text())
       .then(code => {
-        const compiled = Babel.transform(code, { presets: ['react', 'env'] }).code;
+        const compiled = Babel.transform(code, { presets: ['react'] }).code;
         eval(compiled);
       })
       .catch(err => {
