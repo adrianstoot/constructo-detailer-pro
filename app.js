@@ -929,7 +929,7 @@ const ModalFichaTecnica = ({ material, onClose, onAdd }) => {
 // 7. APLICACIÓN PRINCIPAL MASTER
 // ============================================================================
 
-export default function App() {
+function App() {
   const [estadoProyecto, setEstadoProyecto] = useState({ zona: 'C', ambiente: 'fachada' }); 
   const [nombreCerramiento, setNombreCerramiento] = useState('Cerramiento Envolvente Tipo A');
   const [modoVisor, setModoVisor] = useState('2d'); 
