@@ -1,0 +1,66 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install and build
+        run: |
+          npm init -y
+          npm install react react-dom lucide-react
+          npm install -D vite @vitejs/plugin-react
+          cat > vite.config.js << 'EOF'
+          import { defineConfig } from 'vite'
+          import react from '@vitejs/plugin-react'
+          export default defineConfig({
+            plugins: [react()],
+            base: '/constructo-detailer-pro/'
+          })
+          EOF
+          mkdir -p src
+          cp app.js src/App.jsx
+          cat > src/main.jsx << 'EOF'
+          import React from 'react'
+          import ReactDOM from 'react-dom/client'
+          import App from './App.jsx'
+          ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+          EOF
+          cat > index.html << 'HTMLEOF'
+          <!DOCTYPE html>
+          <html lang="es">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>ConstructoPro Master - CTE 2026</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+          </head>
+          <body>
+            <div id="root"></div>
+            <script type="module" src="/src/main.jsx"></script>
+          </body>
+          </html>
+          HTMLEOF
+          npx vite build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
