@@ -22,7 +22,7 @@
 <body>
   <div id="root"></div>
   <script>
-    fetch('./app.js')
+    fetch('./app.js?v=4')
       .then(r => r.text())
       .then(code => {
         const compiled = Babel.transform(code, { presets: ['react', 'env'] }).code;
