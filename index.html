@@ -20,21 +20,20 @@
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root"><div style="color:white;padding:20px">Cargando app...</div></div>
   <script>
-    fetch('./app.js?v=8')
+    window.onerror = function(msg, src, line, col, err) {
+      document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Runtime Error: ' + msg + ' at ' + src + ':' + line + '</pre>';
+    };
+    fetch('./app.js?v=9')
       .then(r => r.text())
       .then(code => {
-        try {
-          const compiled = Babel.transform(code, { presets: ['react'] }).code;
-          const fn = new Function('React', 'ReactDOM', 'lucide', compiled);
-          fn(window.React, window.ReactDOM, window.lucide);
-        } catch(e) {
-          document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Error: ' + e.message + '\n' + e.stack + '</pre>';
-        }
+        const compiled = Babel.transform(code, { presets: ['react'] }).code;
+        const fn = new Function('React', 'ReactDOM', 'lucide', 'document', compiled);
+        fn(window.React, window.ReactDOM, window.lucide, document);
       })
       .catch(err => {
-        document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Fetch Error: ' + err.message + '</pre>';
+        document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Error: ' + err.message + '</pre>';
       });
   </script>
 </body>
