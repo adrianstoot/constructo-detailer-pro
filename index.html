@@ -21,21 +21,6 @@
 </head>
 <body>
   <div id="root"></div>
-  <script>
-    fetch('./app.js?v=10')
-      .then(r => r.text())
-      .then(code => {
-        try {
-          const compiled = Babel.transform(code, { presets: ['react'] }).code;
-          const fn = new Function('React', 'ReactDOM', 'lucide', 'document', compiled);
-          fn(window.React, window.ReactDOM, window.lucide, document);
-        } catch(e) {
-          document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Error: ' + e.message + '</pre>';
-        }
-      })
-      .catch(err => {
-        document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Fetch: ' + err.message + '</pre>';
-      });
-  </script>
+    <script type="text/babel" src="./app.js?v=11"></script>
 </body>
 </html>
