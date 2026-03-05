@@ -26,7 +26,7 @@
       .then(r => r.text())
       .then(code => {
         const compiled = Babel.transform(code, { presets: ['react'] }).code;
-        eval(compiled);
+        try{eval(compiled);}catch(e){document.getElementById('root').innerHTML='<div style="color:red;padding:20px">Runtime: '+e.message+'</div>';}
       })
       .catch(err => {
         document.getElementById('root').innerHTML = '<div style="color:red;padding:20px">Error: ' + err.message + '</div>';
