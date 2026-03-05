@@ -7,7 +7,8 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     body { margin: 0; background: #0a0a0a; color: #fff; font-family: sans-serif; }
     * { box-sizing: border-box; }
@@ -20,17 +21,20 @@
 </head>
 <body>
   <div id="root"></div>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script>
-    fetch('./app.js?v=6')
+    fetch('./app.js?v=7')
       .then(r => r.text())
       .then(code => {
-        const compiled = Babel.transform(code, { presets: ['react'] }).code;
-        const fn = new Function(compiled);
-        fn();
+        try {
+          const compiled = Babel.transform(code, { presets: ['react'] }).code;
+          const fn = new Function('React', 'ReactDOM', 'lucide', compiled);
+          fn(window.React, window.ReactDOM, window.lucide);
+        } catch(e) {
+          document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Compile Error: ' + e.message + '</pre>';
+        }
       })
       .catch(err => {
-        document.getElementById('root').innerHTML = '<div style="color:red;padding:20px">Error: ' + err.message + '</div>';
+        document.getElementById('root').innerHTML = '<pre style="color:red;padding:20px">Fetch Error: ' + err.message + '</pre>';
       });
   </script>
 </body>
